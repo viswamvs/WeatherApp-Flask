@@ -1,13 +1,13 @@
 from pprint import pprint as pp
 from flask import Flask, flash, redirect, render_template, request, url_for
 from weather import query_api
+from operator import itemgetter
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():    
-
-    return render_template(  'weather.html',data=[{'name':'New Delhi'}, 
+    city=[{'name':'New Delhi'}, 
     {'name':'Mumbai'}, 
     {'name':'Chennai'}, 
     {'name':'Kolkatta'}, 
@@ -22,7 +22,10 @@ def index():
     {'name':'Kanpur'},
     {'name':'Jabalpur'},
     {'name':'Lucknow'},
-    {'name':'Pune'}] )
+    {'name':'Pune'},
+    {'name': 'Vellore'}]
+    newlist = sorted(city, key=itemgetter('name'))  
+    return render_template(  'weather.html', data=newlist)
 
 
 @app.route("/result" , methods=['GET', 'POST'])
